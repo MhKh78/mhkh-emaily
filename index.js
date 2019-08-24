@@ -1,8 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
+const passport = require('passport');
 const keys = require('./config/keys');
+
 const dotenv = require('dotenv');
 dotenv.config({ path: `${__dirname}/config.env` });
+
 require('./services/passport');
 
 const DB = keys.mongoDB.connectionString.replace(
@@ -20,6 +24,16 @@ mongoose
   .then(() => console.log('DB Connected'));
 
 const app = express();
+
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookie.cookieKey]
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 
