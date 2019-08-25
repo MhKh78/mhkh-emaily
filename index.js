@@ -4,9 +4,6 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const keys = require('./config/keys');
 
-const dotenv = require('dotenv');
-dotenv.config({ path: `${__dirname}/config.env` });
-
 require('./services/passport');
 
 const DB = keys.mongoDB.connectionString.replace(
