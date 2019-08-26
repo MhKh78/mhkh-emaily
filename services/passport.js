@@ -17,9 +17,11 @@ passport.use(
       clientID: keys.google.client_id,
       clientSecret: keys.google.client_secret,
       callbackURL:
+        // This Way =>
         process.env.NODE_ENV === 'production'
           ? 'https://mhkh-emaily.herokuapp.com/auth/google/callback'
           : '/auth/google/callback'
+      // OR =>  proxy: true
     },
     (accessToken, refreshTolken, profile, done) => {
       User.findOne({ googleId: profile.id }).then(existingUser => {
